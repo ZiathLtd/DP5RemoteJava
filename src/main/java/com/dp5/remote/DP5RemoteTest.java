@@ -7,9 +7,13 @@ import java.util.Map;
 
 public class DP5RemoteTest {
 
+	private final static String NOTIFICATION_URL = "ws://localhost:8777/dp5-websocket";
+	public static NotificationClient notificationClient;
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		DP5RemoteCore remote = new DP5RemoteCore();
+		 startNotificationClient();
 		remote.setHttpClient(HttpClient.newBuilder().version(Version.HTTP_2) // this is the default
 				.build());
 		
@@ -32,7 +36,7 @@ public class DP5RemoteTest {
 		
 		//Scan a rack in DP5 for a given container uid
 		Map<String,String> params = new HashMap<String, String>();
-		params.put("container_uid", "cube96sbs2");
+		params.put("container_uid", "mirage48sbsnew");
 		params.put("raw_image","true");
 		remote.scanRackUsingDP5(params);
 		System.out.println(remote.scanRackUsingDP5(params));
@@ -41,5 +45,13 @@ public class DP5RemoteTest {
 		remote.shutDown();
 		
 	}
+	
+	  /**
+     * Use this to start the notification client on the main thread 
+     * and have it close after all operations are done
+     */
+    public static void startNotificationClient() {
+    	notificationClient = new NotificationClient(NOTIFICATION_URL);
+    }
 
 }
